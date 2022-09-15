@@ -1,0 +1,273 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "properties": {
+    "account_cr_detail": {
+      "properties": {
+        "client_gsd_score": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "currency_code": { "maxLength": 3, "minLength": 3, "type": "string" },
+        "fuddy_credit": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "fuddy_credit_rank": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "fuddy_name": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "fuddy_rating": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "fuddy_risk": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "fuddy_risk_rank": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "fuddy_s_rating": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "market_cap": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "pdk_bin": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "pdk_score": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "rating_firm_name": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "rating_other": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "risk_implied_rating": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        },
+        "zf_rating": {
+          "properties": {
+            "date": { "format": "date", "type": ["null", "string"] },
+            "name": { "type": ["null", "string"] },
+            "value": { "type": ["null", "string"] }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "account_id": { "type": "integer" },
+    "personal_cr_detail": {
+      "properties": {
+        "jep": {
+          "items": {
+            "properties": {
+              "client_type_id": { "type": "integer" },
+              "first_name": { "type": ["null", "string"] },
+              "id": { "type": "integer" },
+              "last_name": { "type": ["null", "string"] },
+              "len_subject_id": { "type": ["null", "string"] },
+              "middle_name": { "type": ["null", "string"] },
+              "ratings": {
+                "items": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "properties": {
+                          "apply_styles": { "type": "boolean" },
+                          "value": {
+                            "anyOf": [
+                              {
+                                "anyOf": [
+                                  { "type": "string" },
+                                  { "type": "number" }
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": ["value", "apply_styles"],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "label": { "type": ["null", "string"] }
+                  },
+                  "required": ["label", "data"],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "spor_client_id": { "type": ["null", "integer"] },
+              "suffix": { "type": ["null", "string"] }
+            },
+            "required": [
+              "client_type_id",
+              "first_name",
+              "id",
+              "last_name",
+              "len_subject_id",
+              "middle_name",
+              "spor_client_id",
+              "suffix",
+              "ratings"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "tag8": {
+          "items": {
+            "properties": {
+              "client_type_id": { "type": "integer" },
+              "first_name": { "type": ["null", "string"] },
+              "id": { "type": "integer" },
+              "last_name": { "type": ["null", "string"] },
+              "len_subject_id": { "type": ["null", "string"] },
+              "middle_name": { "type": ["null", "string"] },
+              "ratings": {
+                "items": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "properties": {
+                          "apply_styles": { "type": "boolean" },
+                          "value": {
+                            "anyOf": [
+                              {
+                                "anyOf": [
+                                  { "type": "string" },
+                                  { "type": "number" }
+                                ]
+                              },
+                              { "type": "null" }
+                            ]
+                          }
+                        },
+                        "required": ["value", "apply_styles"],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "label": { "type": ["null", "string"] }
+                  },
+                  "required": ["label", "data"],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "spor_client_id": { "type": ["null", "integer"] },
+              "suffix": { "type": ["null", "string"] }
+            },
+            "required": [
+              "client_type_id",
+              "first_name",
+              "id",
+              "last_name",
+              "len_subject_id",
+              "middle_name",
+              "spor_client_id",
+              "suffix",
+              "ratings"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": ["jep", "tag8"],
+      "type": "object"
+    },
+    "refreshed_at": { "format": "date-time", "type": "string" }
+  },
+  "required": ["account_cr_detail", "personal_cr_detail", "account_id", "refreshed_at"],
+  "type": "object"
+}
