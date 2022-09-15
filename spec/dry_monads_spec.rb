@@ -1,4 +1,5 @@
 require 'pry'
+require 'dry/monads'
 
 class User
   @@list = []
@@ -90,6 +91,8 @@ class SendReceipt
 end
 
 class MyService
+  include Dry::Monads[:maybe, :result]
+
   def self.call(user_id, product_id)
     new(user_id, product_id).call
   end
@@ -102,30 +105,27 @@ class MyService
   end
 
   def call
-    user = User.find(user_id)
-    if user
-      product = Product.find(product_id)
-      if product
-        if user.already_have_product?(product)
-          'User already owns this product'
-        else
-          if user.can_afford_to_buy_product?(product)
+    result = Maybe(User.find(user_id)).to_result(:user_not_registered).bind do |user|
+      Maybe(Product.find(product_id)).to_result(:product_not_found).bind do |product|
+        user_already_have_product = user.already_have_product?(product)
+        (user_already_have_product && Failure(:user_already_owns_this_product) || Success(user_already_have_product)).bind do
+          can_afford_to_buy_product = user.can_afford_to_buy_product?(product)
+          (can_afford_to_buy_product && Success() || Failure(:cant_afford_to_buy_product)).bind do
             receipt = user.buy_product(product)
-
-            if SendReceipt.call(user, receipt)
-              'The product has been purchased and the receipt is sent to your email'
-            else
-              'The product has been purchased but we had some problems with sending receipt'
-            end
-          else
-            "User can't afford to buy this product"
+            is_receipt_sent = SendReceipt.call(user, receipt)
+            is_receipt_sent && Success() || Failure(:product_purchased_email_not_sent)
           end
         end
-      else
-        'Product not found'
       end
-    else
-      'User not registered'
+    end
+
+    case result
+      when Success then 'The product has been purchased and the receipt is sent to your email'
+      when Failure(:user_not_registered) then 'User not registered'
+      when Failure(:product_not_found) then 'Product not found'
+      when Failure(:user_already_owns_this_product) then 'User already owns this product'
+      when Failure(:cant_afford_to_buy_product) then "User can't afford to buy this product"
+      when Failure(:product_purchased_email_not_sent) then 'The product has been purchased but we had some problems with sending receipt'
     end
   end
 end
