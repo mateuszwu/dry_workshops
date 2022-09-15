@@ -7,3 +7,4 @@ source "https://rubygems.org"
 gem 'rspec'
 gem 'pry'
 gem 'dry-schema'
+gem 'dry-monads'

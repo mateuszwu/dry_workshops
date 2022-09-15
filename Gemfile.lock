@@ -16,6 +16,9 @@ GEM
     dry-logic (1.2.0)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.5, >= 0.5)
+    dry-monads (1.4.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 0.7)
     dry-schema (1.10.4)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 0.13, >= 0.13.0)
@@ -51,6 +54,7 @@ PLATFORMS
   x86_64-darwin-21
 
 DEPENDENCIES
+  dry-monads
   dry-schema
   pry
   rspec
