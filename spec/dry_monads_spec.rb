@@ -1,4 +1,5 @@
 require 'pry'
+require 'dry/monads'
 
 class User
   @@list = []
@@ -90,6 +91,8 @@ class SendReceipt
 end
 
 class MyService
+  include Dry::Monads[:maybe, :result, :do]
+
   def self.call(user_id, product_id)
     new(user_id, product_id).call
   end
@@ -102,30 +105,58 @@ class MyService
   end
 
   def call
-    user = User.find(user_id)
-    if user
-      product = Product.find(product_id)
-      if product
-        if user.already_have_product?(product)
-          'User already owns this product'
-        else
-          if user.can_afford_to_buy_product?(product)
-            receipt = user.buy_product(product)
+    case _call
+      when Success() then 'The product has been purchased and the receipt is sent to your email'
+      when Failure(:user_not_registered) then 'User not registered'
+      when Failure(:product_not_found) then 'Product not found'
+      when Failure(:user_already_owns_this_product) then 'User already owns this product'
+      when Failure(:cant_afford_to_buy_product) then "User can't afford to buy this product"
+      when Failure(:product_purchased_email_not_sent) then 'The product has been purchased but we had some problems with sending receipt'
+    end
+  end
 
-            if SendReceipt.call(user, receipt)
-              'The product has been purchased and the receipt is sent to your email'
-            else
-              'The product has been purchased but we had some problems with sending receipt'
-            end
-          else
-            "User can't afford to buy this product"
-          end
-        end
-      else
-        'Product not found'
-      end
+  private
+
+  def _call
+    user = yield find_user(user_id)
+    product = yield find_product(product_id)
+    yield user_already_have_product?(user, product)
+    yield user_can_afford_to_buy_product?(user, product)
+    yield send_receipt(user, product)
+
+    Success()
+  end
+
+  def find_user(user_id)
+    Maybe(User.find(user_id)).to_result(:user_not_registered)
+  end
+
+  def find_product(product_id)
+    Maybe(Product.find(product_id)).to_result(:product_not_found)
+  end
+
+  def user_already_have_product?(user, product)
+    if user_already_have_product = user.already_have_product?(product)
+      Failure(:user_already_owns_this_product)
     else
-      'User not registered'
+      Success(user_already_have_product)
+    end
+  end
+
+  def user_can_afford_to_buy_product?(user, product)
+    if can_afford_to_buy_product = user.can_afford_to_buy_product?(product)
+      Success()
+    else
+      Failure(:cant_afford_to_buy_product)
+    end
+  end
+
+  def send_receipt(user, product)
+    receipt = user.buy_product(product)
+    if is_receipt_sent = SendReceipt.call(user, receipt)
+      Success()
+    else
+      Failure(:product_purchased_email_not_sent)
     end
   end
 end
