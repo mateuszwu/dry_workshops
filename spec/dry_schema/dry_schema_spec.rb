@@ -27,14 +27,6 @@ PersonalCrDetailTypeSchema = Dry::Schema.Params do
       required(:apply_styles).value(:bool)
     end
   end
-
-  required(:ratings).array(:hash) do
-    required(:label).maybe(:string)
-    required(:data).hash do
-      required(:value).value([:string, :float, :nil])
-      required(:apply_styles).value(:bool)
-    end
-  end
 end
 
 CustomSchema = Dry::Schema.Params do
@@ -57,24 +49,7 @@ CustomSchema = Dry::Schema.Params do
     optional(:zf_rating).hash(AccountRateTypeSchema)
   end
   required(:personal_cr_detail).hash do
-    required(:jep).array(:hash) do
-      required(:client_type_id).value(:integer)
-      required(:first_name).maybe(:string)
-      required(:id).value(:integer)
-      required(:last_name).maybe(:string)
-      required(:len_subject_id).maybe(:string)
-      required(:middle_name).maybe(:string)
-      required(:spor_client_id).maybe(:integer)
-      required(:suffix).maybe(:string)
-
-      required(:ratings).array(:hash) do
-        required(:label).maybe(:string)
-        required(:data).hash do
-          required(:value).value([:string, :float, :nil])
-          required(:apply_styles).value(:bool)
-        end
-      end
-    end
+    required(:jep).array(PersonalCrDetailTypeSchema)
     required(:tag8).array(PersonalCrDetailTypeSchema)
   end
 
